@@ -1,0 +1,198 @@
+   <!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<title>聊天室登陆</title>
+<script type="text/javascript">
+	//基本检查不能为空
+	function check() {
+		var chose = document.getElementById("way1");
+		var uname = document.form1.name.value;
+		var upass = document.form1.pass.value;
+		var uword = document.form1.word.value;
+		var ucode = document.form1.code.value;
+		var patp = new RegExp("^[A-Za-z0-9]{8,16}$");
+		var is_submit = 1;
+		if (uname.trim().length == 0) {
+			document.getElementById("text1").innerHTML = "个性昵称不能为空 ";
+			is_submit = 0;
+		}
+		else {
+			if (uname.length > 10){
+				document.getElementById("text1").innerHTML = "个性昵称最多10个字符，请适当减少内容 ";
+				is_submit = 0;
+			}else {
+				document.getElementById("text1").innerHTML = "";
+			}
+		}
+		if (upass.trim().length == 0){
+			document.getElementById("text2").innerHTML = "密码不能为空 ";
+			is_submit = 0;
+		}
+		else{
+			if (patp.exec(upass) == null) {
+				document.getElementById("text2").innerHTML = "密码为8-16位字母或数字，区分大小写";
+				is_submit = 0;
+			} 
+			else {
+				document.getElementById("text2").innerHTML = "";
+			}
+		}
+		if(chose.checked){
+			document.getElementById("text3").style.color="red";
+	    	if (uword.trim().length == 0){
+		    	document.getElementById("text3").innerHTML = "核对密码不能为空 ";
+		    	is_submit = 0;
+		    } 
+	    	else{
+			    if (uword!=upass){
+				    document.getElementById("text2").innerHTML = "核对密码与密码不符";
+				    is_submit = 0;
+			    } 
+			    else{
+				    document.getElementById("text2").innerHTML = "";
+			    }   
+	     	} 
+		}
+		else{
+			document.getElementById("text3").style.color="green";
+			document.getElementById("text3").innerHTML = "登录用户不需要填写核对密码";
+		}
+		if (ucode.trim().length == 0){
+			document.getElementById("text4").innerHTML = "验证码不能为空 ";
+			is_submit = 0;
+		} 
+		else{
+			document.getElementById("text4").innerHTML = "";
+		}
+		if (is_submit == 1) {
+			form1.submit();
+		} 
+		else{
+			return false;
+		}
+	}
+	//生成验证码
+	function changeimg() {
+		document.getElementById("img1").src = "Vali_Code?" + Math.random();
+	}
+	//AJAX初始化
+	function initAjax() {
+		var xmlHttp;
+		try {
+			// Firefox, Opera 8.0+, Safari
+			xmlHttp = new XMLHttpRequest();
+		}
+		catch (e) {
+			// Internet Explorer
+			try {
+				xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+			} 
+			catch (e) {
+				try {
+					xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+				} 
+				catch (e) {
+					alert("您的浏览器不支持AJAX！");
+				}
+			}
+		}
+		return xmlHttp;
+	}
+	function check_nick() {
+		var http_request = initAjax();
+		
+		var nickname = document.getElementById("name").value;
+		//http_request.open("get", "check_nick?nick="+nickname, true);
+		http_request.open("post", "check_nick", true);
+		
+		var para= "name="+name;
+		http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+		http_request.send(para);
+		
+		http_request.onreadystatechange = function() {
+			if(http_request.readyState == 4) {
+				if(http_request.status == 200) {
+					alert("happy");
+					var check_result=http_request.responseText;
+					alert(check_result);
+					if(check_result=="1"){
+						document.getElementById("text1").style.color="green";
+					    document.getElementById("text1").innerHTML = "当前昵称可用";
+					}
+					else{
+						document.getElementById("text1").style.color="red";
+					    document.getElementById("text1").innerHTML = "当前昵称已存在";
+					}
+				}
+			}
+		};
+		
+		
+		
+	
+		
+	}
+</script>
+
+</head>
+<body>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div style="font-family: times; color: #8600FF">欢迎来到小仙女聊天室</div>
+	<br>
+	<form name="form1" action="validate.html" method="post">
+
+		<img alt="小仙女不想看见你" src="img/xiaoxiannv.jpg" width="300" height="100">
+		<table>
+			<tr></tr>
+			<tr>
+				<td>登录：<input type="radio" checked="checked" name="way"
+					id="way0" value="0"></td>
+				<td>注册：<input type="radio" name="way" id="way1" value="1"></td>
+			</tr>
+
+			<tr>
+				<td>昵称:</td>
+				<td><input id="name" name="name" onblur="check()"></td>
+				<td><input type="button" value="注册 检查" onclick="check_nick()"></td>
+				<td><div id="text1" style="color: red"></div></td>
+			</tr>
+
+			<tr>
+				<td>密码:</td>
+				<td><input type="password" id="pass" name="pass"
+					onblur="check()"></td>
+				<td></td>
+				<td><div id="text2" style="color: red"></div></td>
+			</tr>
+
+			<tr>
+				<td>核对密码:</td>
+				<td><input type="password" id="word" name="word"
+					onblur="check()"></td>
+				<td></td>
+				<td><div id="text3" style="color: red"></div></td>
+			</tr>
+
+			<tr>
+				<td>验证码：</td>
+				<td><input id="code" name="code" onblur="check()"></td>
+				<td><img name="img1" id="img1" alt="" src="Vali_Code"
+					onclick="changeimg()"></td>
+				<td><div id="text4" style="color: red"></div></td>
+			</tr>
+
+			<tr>
+				<td><input type="button" value="确认登录"></td>
+			</tr>
+		</table>
+
+	</form>
+
+</body>
+</html>

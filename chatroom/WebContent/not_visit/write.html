@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8;pageencoding=UTF-8">
+<title>输入界面</title>
+<style type="text/css">
+div{
+	display:inline;
+}
+</style>
+<script type="text/javascript">
+	function check() {
+		var text = document.form1.words.value;
+		var can_submit = 0;
+		if (text.length == 0) {
+			document.getElementById("text1").innerHTML = "输入内容不能为空";
+			can_submit = 0;
+		} else {
+			if (text.length > 40) {
+				document.getElementById("text1").innerHTML = "输入字符最多为40个，请适当减少内容";
+				can_submit = 0;
+			} else {
+				
+				can_submit = 1;
+				document.getElementById("text1").innerHTML = "";
+			}
+		}
+	
+		if (can_submit == 1) {
+			document.getElementById("sub").disabled = false;
+		} else {
+			document.getElementById("sub").disabled =  'disabled';
+		}
+		
+		
+	}
+</script>
+</head>
+<body>
+	<div>
+		<form name="form1" action="../up_words" method="post">
+			<div style="color: #8600FF; font-size: 20px;">请输入想说的话</div>
+			<br>
+			<p></p>
+		
+			<input type="text" name="words" id="words" onblur="check()" style="width:600px;height:60px"> <br>
+			<div id="text1" style="color: red"></div>
+			<br>
+			<input type="button" name="sub" id="sub" value="发送" onclick="submit()" disabled="true">
+			</from>
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>chatroom</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+<servlet>
+    <servlet-name>firstservlet</servlet-name>
+    <servlet-class>chat.ValidateUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>firstservlet</servlet-name>
+    <url-pattern>/validate.html</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>secondservlet</servlet-name>
+    <servlet-class>chat.User_List</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>secondservlet</servlet-name>
+    <url-pattern>/user_list.html</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>thirdservlet</servlet-name>
+    <servlet-class>chat.Up_Words</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>logoutservlet</servlet-name>
+    <servlet-class>chat.LogOut</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>thirdservlet</servlet-name>
+    <url-pattern>/up_words.html</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>forthservlet</servlet-name>
+    <servlet-class>chat.UpLoad</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>forthservlet</servlet-name>
+    <url-pattern>/upload.html</url-pattern>
+  </servlet-mapping>
+    <filter>  
+      <filter-name>log_filter</filter-name>  
+     <filter-class>filter.LogFilter</filter-class>  
+    </filter>  
+    <filter-mapping>  
+    <filter-name>log_filter</filter-name>  
+   <url-pattern>/not_visit/*</url-pattern>  
+    </filter-mapping>   
+  <listener>
+    <display-name>OnLine Count Listener</display-name>
+    <listener-class>listener.OnlineCount</listener-class>
+  </listener>
+</web-app>
